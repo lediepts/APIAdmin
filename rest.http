@@ -1,17 +1,15 @@
+@api_key=eyJzd-WIiOi-JhMjM-xMmQy-NTc4I-iwibm-FtZSI
 
+
+# Category
 GET http://localhost:3000/api/category HTTP/1.1
-user-agent: diep
-X-API-KEY: eyJzd-WIiOi-JhMjM-xMmQy-NTc4I-iwibm-FtZSI
-
+X-API-KEY: {{api_key}}
 ###
-
 GET http://localhost:3000/api/category?parentId=6020e0e79828492c903eab9a HTTP/1.1
-
+X-API-KEY: {{api_key}}
 ###
-GET http://localhost:3000/api/category/6020e0e79828492c903eab9a HTTP/1.1
-
+GET http://localhost:3000/api/category/6020e0e79828492cs903eab9a HTTP/1.1
 ###
-
 POST http://localhost:3000/api/category HTTP/1.1
 content-type: application/json
 
@@ -22,7 +20,39 @@ content-type: application/json
     "ja": "どうき"
 }
 ###
+DELETE  http://localhost:3000/api/category/6028d7442ca11545c8d68a46 HTTP/1.1
 
-DELETE  http://localhost:3000/api/category/6020e0e79828492c903eab9a HTTP/1.1
-
+### 
+#Contents
+GET http://localhost:3000/api/content HTTP/1.1
+X-API-KEY: {{api_key}}
 ###
+POST http://localhost:3000/api/content HTTP/1.1
+content-type: application/json
+
+{
+    "categoryId":"6020e0e79828492c903eab9a",
+    "title":{
+        "en":"test"
+    },
+    "description":{
+        "en":"test"
+    }
+}
+###
+PUT http://localhost:3000/api/content/6028d7582ca11545c8d68a4 HTTP/1.1
+content-type: application/json
+
+{
+    "categoryId":"6020e0e79828492c903eab9a",
+    "title":{
+        "en":"test"
+    },
+    "description":{
+        "en":"test"
+    }
+}
+###
+DELETE  http://localhost:3000/api/content/6028d7582ca11545c8d68a4 HTTP/1.1
+
+### 
