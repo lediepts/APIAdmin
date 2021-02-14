@@ -1,0 +1,24 @@
+import Axios from "axios";
+import * as queryString from "querystring";
+
+const axiosClient = Axios.create({
+  headers: {
+    "content-type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+  },
+  paramsSerializer: (param) => queryString.stringify(param),
+});
+axiosClient.interceptors.request.use(async (config) => {
+  return config;
+});
+axiosClient.interceptors.response.use(
+  (response) => {
+    if (response && response.data) return response.data;
+    return response;
+  },
+  (error) => {
+    throw error;
+  }
+);
+export default axiosClient;

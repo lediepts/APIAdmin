@@ -1,0 +1,28 @@
+
+GET http://localhost:3000/api/category HTTP/1.1
+user-agent: diep
+X-API-KEY: eyJzd-WIiOi-JhMjM-xMmQy-NTc4I-iwibm-FtZSI
+
+###
+
+GET http://localhost:3000/api/category?parentId=6020e0e79828492c903eab9a HTTP/1.1
+
+###
+GET http://localhost:3000/api/category/6020e0e79828492c903eab9a HTTP/1.1
+
+###
+
+POST http://localhost:3000/api/category HTTP/1.1
+content-type: application/json
+
+{
+    "parentId":"6020e0e79828492c903eab9a",
+    "en": "async",
+    "vi": "dong bo",
+    "ja": "どうき"
+}
+###
+
+DELETE  http://localhost:3000/api/category/6020e0e79828492c903eab9a HTTP/1.1
+
+###
