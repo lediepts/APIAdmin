@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
-import CategorySchema from "../../../models/category";
+import ContentsSchema from "../../../models/contents";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,11 +21,11 @@ export default async function handler(
   switch (method) {
     case "GET" /* Get a model by ID */:
       try {
-        const category = await CategorySchema.findById(id);
-        if (!category) {
+        const content = await ContentsSchema.findById(id);
+        if (!content) {
           return res.status(404).send(`ID(${id}) does not exists`);
         }
-        res.status(200).json(category);
+        res.status(200).json(content);
       } catch (error) {
         res.status(500).send({ error });
       }
@@ -33,14 +33,14 @@ export default async function handler(
 
     case "PUT" /* Update a model by ID */:
       try {
-        const category = await CategorySchema.findByIdAndUpdate(id, req.body, {
+        const content = await ContentsSchema.findByIdAndUpdate(id, req.body, {
           new: true,
           runValidators: true,
         });
-        if (!category) {
+        if (!content) {
           return res.status(404).send(`ID(${id}) does not exists`);
         }
-        res.status(200).json(category);
+        res.status(200).json(content);
       } catch (error) {
         res.status(500).send({ error });
       }
@@ -48,17 +48,11 @@ export default async function handler(
 
     case "DELETE" /* Delete a model by ID */:
       try {
-        const sub = await CategorySchema.find({
-          parentId: id,
-        });
-        if (sub && sub.length) {
-          return res.status(409).end();
-        }
-        const category = await CategorySchema.findById(id);
-        if (!category) {
+        const content = await ContentsSchema.findById(id);
+        if (!content) {
           return res.status(404).send(`ID(${id}) does not exists`);
         }
-        await CategorySchema.deleteOne({ _id: id });
+        await ContentsSchema.deleteOne({ _id: id });
         res.status(200).json({ success: true });
       } catch (error) {
         res.status(500).send({ error });

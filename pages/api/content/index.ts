@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { checkAPIKey } from "../../../lib/checkAPIkey";
 import dbConnect from "../../../lib/dbConnect";
-import CategorySchema from "../../../models/category";
+import ContentsSchema from "../../../models/contents";
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,10 +29,10 @@ export default async function handler(
         }
         let option = parentId
           ? {
-              parentId: parentId,
+              categoryId: parentId,
             }
           : {};
-        const category = await CategorySchema.find(option).limit(
+        const category = await ContentsSchema.find(option).limit(
           500
         ); /* find all the data in our database */
         res.status(200).json(category);
@@ -42,17 +42,16 @@ export default async function handler(
       break;
     case "POST":
       try {
-        const { parentId, en, vi, ja } = req.body;
-        if (!en) return res.status(400).end();
-        const category = await CategorySchema.create({
-          parentId,
-          en,
-          vi,
-          ja,
+        const { categoryId, title, description } = req.body;
+        if (!title.en || !description.en) return res.status(400).end();
+        const content = await ContentsSchema.create({
+          categoryId,
+          title,
+          description,
         }).catch(() => {
           return res.status(400).send(`incorrect input`);
         });
-        res.status(201).json(category);
+        res.status(201).json(content);
       } catch (error) {
         res.status(400).send({ error });
         res.end();
