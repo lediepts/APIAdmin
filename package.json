@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "yarn && nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
-    "deploy": "yarn build && yarn start"
+    "start": "NODE_ENV=production node dist/index.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
