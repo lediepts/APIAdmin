@@ -1,16 +1,23 @@
-FROM node:lts-alpine
+FROM node:alpine
 
-ENV NODE_ENV production
-ENV NPM_CONFIG_LOGLEVEL warn
+WORKDIR /usr/app
 
-RUN mkdir /app
-WORKDIR /app
+RUN npm install --global pm2
 
-COPY package.json yarn.lock ./
-COPY . .
+COPY ./package*.json ./
 
-RUN npm install
+RUN npm install --force
 
-EXPOSE 3000
+COPY ./ ./
 
-CMD [ "npm", "run", "dev" ]
+RUN npm run build
+
+EXPOSE 6000
+
+USER node
+
+CMD [ "pm2-runtime", "npm", "--", "start" ]
+
+#  docker login apiadmin.azurecr.io
+#  docker build -t apiadmin.azurecr.io/api-admin:lastest .
+#  docker push apiadmin.azurecr.io/api-admin:lastest

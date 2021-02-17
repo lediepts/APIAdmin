@@ -4,7 +4,7 @@ import next, { NextApiHandler } from "next";
 import * as socketio from "socket.io";
 import { getName, SocketUser } from "./lib";
 
-const port: number = parseInt(process.env.PORT || "3000", 10);
+const port: number = parseInt(process.env.PORT || "6000", 10);
 const dev: boolean = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });
 const nextHandler: NextApiHandler = nextApp.getRequestHandler();
@@ -15,6 +15,9 @@ nextApp.prepare().then(async () => {
   const io: socketio.Server = new socketio.Server();
   io.attach(server);
 
+  app.get("/ping",(_req,res)=>{
+    res.status(200).send("pong");
+  })
   const users: SocketUser[] = [];
   const typing: string[] = [];
 
