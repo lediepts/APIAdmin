@@ -40,7 +40,6 @@ export default function chat_index() {
           type="text"
         />
       </div>
-      {JSON.stringify(state)}
       <div className="m-2 p-2 w-56">
         <button
           className="border border-green-50 bg-indigo-800 px-4 py-2 rounded-md hover:bg-purple-900"

@@ -9,7 +9,7 @@ function Layout({ children }: Props) {
   return (
     <>
       <main className={styles.main}>
-        <div className="text-red-800 font-bold">{children}</div>
+        <div className="text-red-800 font-bold min-h-screen min-w-full">{children}</div>
       </main>
       <Footer />
     </>

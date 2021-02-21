@@ -1,11 +1,13 @@
+import cogoToast from "cogo-toast";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import { useRouter } from "next/router";
 import { SocketUser } from "server/lib";
+import { io } from "socket.io-client";
 
-export default function SocketIO() {
-  const router = useRouter();
-  const { roomId, nick } = router.query;
+export default function SocketIO({
+  query,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { roomId, nick } = query;
   const [socket] = useState(() => io());
   const [typing, setTyping] = useState<string[]>([]);
   const [messages, setMessages] = useState<
@@ -14,7 +16,6 @@ export default function SocketIO() {
       message?: string;
     }[]
   >([]);
-  console.log(messages);
   const [users, setUsers] = useState<SocketUser[]>([]);
   const [text, setText] = useState("");
   const [socketData, setSocketData] = useState<{
@@ -22,7 +23,18 @@ export default function SocketIO() {
     message?: string;
   }>({ nick: "", message: "" });
   useEffect(() => {
-    socket.on("s_users", (data: SocketUser[]) => {
+    socket.on("s_users", (data: SocketUser[], newUser: string) => {
+      newUser !== nick &&
+        cogoToast.info(`${newUser.toUpperCase()} has entered the room`, {
+          hideAfter: 5,
+        });
+      setUsers(data);
+    });
+    socket.on("s_users_logout", (data: SocketUser[], user: string) => {
+      user !== nick &&
+        cogoToast.warn(`${user.toUpperCase()} has left the room`, {
+          hideAfter: 5,
+        });
       setUsers(data);
     });
     socket.on("s_typing", (data: string[]) => {
@@ -73,7 +85,9 @@ export default function SocketIO() {
               return (
                 <p key={i}>
                   <span className="capitalize">{v.nick}</span>
-                  {typing.includes(v.id) && <span className="text-xs rounded-md px-2">(typing...)</span>}
+                  {typing.includes(v.id) && (
+                    <span className="text-xs rounded-md px-2">(typing...)</span>
+                  )}
                 </p>
               );
             })}
@@ -93,7 +107,9 @@ export default function SocketIO() {
                 >
                   {v.nick === `${nick}` ? (
                     <>
-                      <span className="text-red-700 border border-red-100 p-1">{v.message}</span>
+                      <span className="text-red-700 border border-red-100 p-1">
+                        {v.message}
+                      </span>
                       <span className="rounded-lg px-1 bg-red-500 ml-2 flex justify-center items-center text-white text-xs">
                         {v.nick}{" "}
                       </span>
@@ -103,7 +119,9 @@ export default function SocketIO() {
                       <span className="rounded-lg px-1 bg-blue-500 mr-2 flex justify-center items-center text-white text-xs">
                         {v.nick}
                       </span>
-                      <span className="border border-blue-100 p-1">{v.message}</span>
+                      <span className="border border-blue-100 p-1">
+                        {v.message}
+                      </span>
                     </>
                   )}
                 </p>
@@ -136,3 +154,12 @@ export default function SocketIO() {
     </div>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { query } = context;
+  return {
+    props: {
+      query,
+      fallback: true,
+    },
+  };
+};

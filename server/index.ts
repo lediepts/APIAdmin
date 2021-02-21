@@ -4,7 +4,7 @@ import next, { NextApiHandler } from "next";
 import * as socketio from "socket.io";
 import { getName, SocketUser } from "./lib";
 
-const port: number = parseInt(process.env.PORT || "6000", 10);
+const port: number = parseInt(process.env.PORT || "8000", 10);
 const dev: boolean = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });
 const nextHandler: NextApiHandler = nextApp.getRequestHandler();
@@ -15,9 +15,9 @@ nextApp.prepare().then(async () => {
   const io: socketio.Server = new socketio.Server();
   io.attach(server);
 
-  app.get("/ping",(_req,res)=>{
+  app.get("/ping", (_req, res) => {
     res.status(200).send("pong");
-  })
+  });
   const users: SocketUser[] = [];
   const typing: string[] = [];
 
@@ -36,7 +36,7 @@ nextApp.prepare().then(async () => {
         room: data.roomId,
         nick: getName(data.nick, users),
       });
-      io.to(data.roomId).emit("s_users", users);
+      io.to(data.roomId).emit("s_users", users, data.nick);
     });
     socket.on("c_typing_start", () => {
       if (!typing.includes(socket.id)) {
@@ -65,7 +65,7 @@ nextApp.prepare().then(async () => {
       if (user) {
         socket.leave(user.room);
         users.splice(users.indexOf(user), 1);
-        io.to(user.room).emit("s_users", users);
+        io.to(user.room).emit("s_users_logout", users, user.nick);
       }
       console.log(`${socket.id} is disconnected`);
     });
