@@ -45,8 +45,8 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="bg-black h-screen flex flex-wrap justify-center items-center overflow-hidden">
-        {state}
+      <div className="bg-black h-screen flex flex-wrap justify-center items-center overflow-hidden ">
+        {/* <div className=""> {state}</div> */}
       </div>
     </Layout>
   );
