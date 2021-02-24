@@ -1,10 +1,19 @@
-import React from 'react'
-import Layout from "../../components/ADMIN/layout"
+// pages/products
+import useSWR from "swr";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-export default function Admin() {
+const fetcher = async (uri: RequestInfo) => {
+  const response = await fetch(uri);
+  return response.json();
+};
+
+export default withPageAuthRequired(function Products() {
+  const { data, error } = useSWR("/api/protected", fetcher);
+  if (error) return <div>oops... {error.message}</div>;
+  if (data === undefined) return <div>Loading...</div>;
   return (
-    <Layout>
-      welcome
-    </Layout>
-  )
-}
+    <div>
+      {JSON.stringify(data)} <a href="/api/auth/logout">Logout</a>
+    </div>
+  );
+});
