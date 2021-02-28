@@ -34,7 +34,7 @@ export default async function handler(
           : {};
         const category = await ContentsSchema.find(option).limit(
           500
-        ); /* find all the data in our database */
+        );
         res.status(200).json(category);
       } catch (error) {
         res.status(500).send({ error });
