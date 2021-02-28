@@ -1,5 +1,5 @@
+import { checkAPIKey } from "lib/checkKey";
 import { NextApiRequest, NextApiResponse } from "next";
-import { checkAPIKey } from "../../../lib/checkAPIKey";
 import dbConnect from "../../../lib/dbConnect";
 import ContentsSchema from "../../../models/contents";
 
@@ -32,9 +32,7 @@ export default async function handler(
               categoryId: parentId,
             }
           : {};
-        const category = await ContentsSchema.find(option).limit(
-          500
-        );
+        const category = await ContentsSchema.find(option).limit(500);
         res.status(200).json(category);
       } catch (error) {
         res.status(500).send({ error });
