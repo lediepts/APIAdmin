@@ -1,5 +1,5 @@
+import { checkAPIKey } from "lib/checkKey";
 import { NextApiRequest, NextApiResponse } from "next";
-import { checkAPIKey } from "../../../lib/checkAPIKey";
 import dbConnect from "../../../lib/dbConnect";
 import CategorySchema from "../../../models/category";
 
