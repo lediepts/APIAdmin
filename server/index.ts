@@ -3,6 +3,7 @@ import * as http from "http";
 import next, { NextApiHandler } from "next";
 import * as socketio from "socket.io";
 import { getName, SocketUser } from "./lib";
+var cors = require("cors");
 
 const port: number = parseInt(process.env.PORT || "8000", 10);
 const dev: boolean = process.env.NODE_ENV !== "production";
@@ -14,7 +15,7 @@ nextApp.prepare().then(async () => {
   const server: http.Server = http.createServer(app);
   const io: socketio.Server = new socketio.Server();
   io.attach(server);
-
+  app.use(cors());
   app.get("/ping", (_req, res) => {
     res.status(200).send("pong");
   });

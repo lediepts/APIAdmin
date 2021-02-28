@@ -8,7 +8,7 @@ const fetcher = async (uri: RequestInfo) => {
 };
 
 export default withPageAuthRequired(function Products() {
-  const { data, error } = useSWR("/api/protected", fetcher);
+  const { data, error } = useSWR("/api/auth/protected", fetcher);
   if (error) return <div>oops... {error.message}</div>;
   if (data === undefined) return <div>Loading...</div>;
   return (
