@@ -2,15 +2,15 @@
 
 
 # Category
-GET http://localhost:3000/api/category HTTP/1.1
+GET http://localhost:8000/api/category HTTP/1.1
 X-API-KEY: {{api_key}}
 ###
-GET http://localhost:3000/api/category?parentId=6020e0e79828492c903eab9a HTTP/1.1
+GET http://localhost:8000/api/category?parentId=6020e0e79828492c903eab9a HTTP/1.1
 X-API-KEY: {{api_key}}
 ###
-GET http://localhost:3000/api/category/6020e0e79828492cs903eab9a HTTP/1.1
+GET http://localhost:8000/api/category/6020e0e79828492cs903eab9a HTTP/1.1
 ###
-POST http://localhost:3000/api/category HTTP/1.1
+POST http://localhost:8000/api/category HTTP/1.1
 content-type: application/json
 
 {
@@ -20,14 +20,14 @@ content-type: application/json
     "ja": "どうき"
 }
 ###
-DELETE  http://localhost:3000/api/category/6028d7442ca11545c8d68a46 HTTP/1.1
+DELETE  http://localhost:8000/api/category/6028d7442ca11545c8d68a46 HTTP/1.1
 
 ### 
 #Contents
-GET http://localhost:3000/api/content HTTP/1.1
+GET http://localhost:8000/api/content HTTP/1.1
 X-API-KEY: {{api_key}}
 ###
-POST http://localhost:3000/api/content HTTP/1.1
+POST http://localhost:8000/api/content HTTP/1.1
 content-type: application/json
 
 {
@@ -40,7 +40,7 @@ content-type: application/json
     }
 }
 ###
-PUT http://localhost:3000/api/content/6028d7582ca11545c8d68a4 HTTP/1.1
+PUT http://localhost:8000/api/content/6028d7582ca11545c8d68a4 HTTP/1.1
 content-type: application/json
 
 {
@@ -53,6 +53,21 @@ content-type: application/json
     }
 }
 ###
-DELETE  http://localhost:3000/api/content/6028d7582ca11545c8d68a4 HTTP/1.1
+DELETE  http://localhost:8000/api/content/6028d7582ca11545c8d68a4 HTTP/1.1
 
 ### 
+
+GET https://redmine.0004s.com:4445/issues.json?limit=5 HTTP/1.1
+X-API-KEY: 3b9f47719f96b6de654f5171f09fbc42c4697f5a
+Authorization: Basic user:4s-mmsi4!4s-mmsi4!
+
+###
+
+POST http://localhost:8000/api/post
+content-type: application/json
+
+{
+    "name":"diep",
+    "old":30,
+    "mail":"abc"
+}
