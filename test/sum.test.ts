@@ -1,32 +1,16 @@
-import { sum } from "../lib/checkAPIKey";
+import { sum } from "../unit/foo";
+import {check} from "../unit/ut"
+// jest.mock("../unit/foo");
+jest.mock("../unit/ut");
 
-const str = [
-  [1, 2, 3],
-  [2, 4, 6],
-];
-// `
-//   a    | b    | expected
-//   ${1} | ${2} | ${3}
-//   ${3} | ${2} | ${5}
-//   ${6} | ${2} | ${8}
-// `;
+// const Sum = sum as jest.Mock;
+const Check = check as jest.Mock;
 
-describe.each(str)("test sum", (a, b, expected) => {
-  test(`${a} + ${b} = ${expected}`, () => {
-    expect(sum(a, b)).toBe(expected);
-  });
-});
-
-describe.only.each([
-  [1, 1, 2],
-  [5, 3, 8],
-  [2, 1, 3],
-])(`hoge $b`, (a, b, expected) => {
-  test(`returns ${expected}`, () => {
-    expect(a + b).toBe(expected);
-  });
-});
-
-test("will not be ran", () => {
-  expect(1 / 0).toBe(Infinity);
+// test("adds 1 + 2 to equal 3", () => {
+//   sum(4,2)
+//   expect(sum(4, 2)).toBe(6);
+// });
+test("hoge", () => {
+  sum(4, 2);
+  expect(Check.mock.calls[0][0]).toBe(4);
 });
