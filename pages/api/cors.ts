@@ -19,7 +19,7 @@ export default async function handler(
       }
       break;
     default:
-      res.status(500).end();
+      res.status(500).send(`${method} is not support!`);
       break;
   }
 }
