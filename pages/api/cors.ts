@@ -12,8 +12,8 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { data } = await axiosClient.get(`${url}`);
-        res.status(200).json(data);
+        const resp = await axiosClient(`${url}`);
+        res.status(200).json(resp);
       } catch (error) {
         res.status(500).send({ error });
       }
