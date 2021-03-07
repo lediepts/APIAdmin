@@ -10,7 +10,7 @@ export default async function handler(
     query: { url },
   } = req;
   switch (method) {
-    case "GET":
+    case "POST":
       try {
         const resp = await axiosClient(`${url}`);
         res.status(200).json(resp);
