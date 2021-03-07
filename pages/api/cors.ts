@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   const {
     method,
-    query: { url },
+    body: { url },
   } = req;
   switch (method) {
     case "POST":
