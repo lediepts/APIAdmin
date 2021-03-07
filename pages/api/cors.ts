@@ -8,11 +8,20 @@ export default async function handler(
   const {
     method,
     body: { url },
+    query: { uri },
   } = req;
   switch (method) {
+    case "GET":
+      try {
+        const resp = await axiosClient(`${uri}`.replace(/"/g, ""));
+        res.status(200).json(resp);
+      } catch (error) {
+        res.status(500).send({ error });
+      }
+      break;
     case "POST":
       try {
-        const resp = await axiosClient(`${url}`);
+        const resp = await axiosClient(`${url}`.replace(/"/g, ""));
         res.status(200).json(resp);
       } catch (error) {
         res.status(500).send({ error });
